@@ -1,0 +1,22 @@
+.sidebar {
+    background-color: #1d1d1d;
+    color: #eeeeee;
+    padding: 10px;
+    width: 240px;
+}
+
+.logo {
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 20px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.links a {
+    text-decoration: none;
+    color: #eeeeee;
+}

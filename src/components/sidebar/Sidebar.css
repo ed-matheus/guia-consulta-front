@@ -2,12 +2,12 @@
     background-color: #1d1d1d;
     color: #eeeeee;
     padding: 10px;
-    width: 240px;
+    width: 260px;
 }
 
 .logo {
     border-bottom: 1px solid #eeeeee;
-    margin-bottom: 20px;
+    height: 90px;
 }
 
 .links {
@@ -19,4 +19,13 @@
 .links a {
     text-decoration: none;
     color: #eeeeee;
+    padding: 5px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.links a:hover {
+    background-color: #eeeeee;
+    color: #1d1d1d;
+    transition: 0.8s;
 }

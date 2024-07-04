@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const DataFetcher = () => {
+const FetchModalities = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,10 +42,10 @@ const DataFetcher = () => {
                 ))}
             </ul>
             <div>
-                {data[1].name}
+                {data[1].description}
             </div>
         </div>
     );
 };
 
-export default DataFetcher;
+export default FetchModalities;

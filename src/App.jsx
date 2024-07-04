@@ -3,7 +3,7 @@ import './App.css'
 // Componentes
 import Sidebar from './components/sidebar/Sidebar'
 import Navbar from './components/navbar/Navbar'
-import DataFetcher from './components/DataFetcher'
+import FetchModalities from './components/requisitions/FetchModalities'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Sidebar />
       <div className='d-flex flex-column w-100'>
         <Navbar />
-        <DataFetcher />
+        <FetchModalities />
       </div>
     </div>
   )

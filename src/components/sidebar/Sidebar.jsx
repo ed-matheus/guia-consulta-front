@@ -12,7 +12,7 @@ const Sidebar = () => {
                     <i class="fa-solid fa-house"></i> Home
                 </a>
                 <a href="#" className='mb-4'>
-                <i class="fa-solid fa-user"></i> Usuário
+                    <i class="fa-solid fa-user"></i> Usuário
                 </a>
                 <a href="#">
                     <i class="fa-solid fa-gauge"></i> Dashboard

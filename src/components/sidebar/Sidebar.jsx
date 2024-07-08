@@ -1,24 +1,27 @@
+// CSS
 import './Sidebar.css'
+
+import { Link, NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
     return (
-        <div className='sidebar h-100' >
+        <nav className='sidebar h-100' >
             <div className='logo mb-5 d-flex align-items-center justify-content-center'>
                 <h4>Guia de Consulta</h4>
             </div>
 
             <div className='links'>
-                <a href="#" className='mb-4'>
+                <NavLink to="/" className='mb-4'>
                     <i class="fa-solid fa-house"></i> Home
-                </a>
-                <a href="#" className='mb-4'>
+                </NavLink>
+                <NavLink to="/usuario" className='mb-4'>
                     <i class="fa-solid fa-user"></i> Usuário
-                </a>
-                <a href="#">
+                </NavLink>
+                <NavLink to="/dashboard" className='mb-4'>
                     <i class="fa-solid fa-gauge"></i> Dashboard
-                </a>
+                </NavLink>
             </div>
-        </div>
+        </nav>
     )
 }
 

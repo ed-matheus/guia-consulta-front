@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 // Styles
 import './FetchModalities.css'
 
-const FetchModalities = () => {
-    const [data, setData] = useState([]);
+const FetchModalities = ({ modalities, setModalities }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,10 +18,9 @@ const FetchModalities = () => {
                 const data = await response.json();
                 console.log(data);
 
-                setData(data);
+                setModalities(data); // Atualiza o estado local com os dados da API
             } catch (error) {
                 setError(error);
-
             } finally {
                 setLoading(false);
             }
@@ -30,6 +28,24 @@ const FetchModalities = () => {
 
         getData();
     }, []);
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/v1/machines/modalities/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            // Atualiza o estado local para remover o item deletado
+            setModalities(modalities.filter(item => item.id !== id));
+        } catch (error) {
+            console.error('Error:', error);
+            setError(error);
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -51,17 +67,20 @@ const FetchModalities = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index} className='text-center'>
+                    {modalities.map((item, index) => (
+                        <tr className='text-center' key={index}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.description}</td>
-                            <td className='text-center'>
-                                <button className='btn me-2'>
-                                    <i class="fa-solid fa-trash text-danger"></i>
+                            <td>
+                                <button 
+                                    className='btn me-2' 
+                                    onClick={() => handleDelete(item.id)}
+                                >
+                                    <i className="fa-solid fa-trash text-danger"></i>
                                 </button>
                                 <button className='btn'>
-                                    <i class="fa-solid fa-pencil text-primary"></i>
+                                    <i className="fa-solid fa-pencil text-primary"></i>
                                 </button>
                             </td>
                         </tr>

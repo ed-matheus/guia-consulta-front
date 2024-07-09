@@ -39,7 +39,23 @@ const Home = () => {
                 document.getElementById('user_create').classList.add('border-danger');
             }
 
+            const alert = document.getElementById('alert_container')
+            alert.classList.remove('hide')
+
             return;
+        } else {
+            if (name) {
+                document.getElementById('name').classList.remove('border-danger');
+            }
+            if (description) {
+                document.getElementById('description').classList.remove('border-danger');
+            }
+            if (user_create) {
+                document.getElementById('user_create').classList.remove('border-danger');
+            }
+
+            const alert = document.getElementById('alert_container')
+            alert.classList.add('hide')
         }
 
         try {
@@ -77,6 +93,10 @@ const Home = () => {
     return (
         <div className='home'>
             <h1 className='text-center'>Data from API</h1>
+            {/* Mensagem de alerta ao tentar enviar os dados com os campos vazios */}
+            <div id='alert_container' className='alert alert-danger w-25 m-auto text-center hide'>
+                Por favor, preencha todos os campos.
+            </div>
             <form className='m-auto w-50 mb-5' onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Nome</label>

@@ -5,10 +5,9 @@ import { useState, useEffect } from 'react'
 // Componentes
 import Sidebar from './components/sidebar/Sidebar'
 import Navbar from './components/navbar/Navbar'
-import FetchModalities from './components/requisitions/FetchModalities'
 
 // Pages
-import Home from './pages/Home'
+import Home from './pages/Home/Home'
 import User from './pages/User'
 import Dashboard from './pages/Dashboard'
 
@@ -37,7 +36,6 @@ function App() {
         <Sidebar />
         <div className='d-flex flex-column w-100'>
           <Navbar page={pageTitle} />
-          <FetchModalities />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/usuario' element={<User />} />

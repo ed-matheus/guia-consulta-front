@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Styles
 import './Home.css'
 
 // Components
 import FetchModalities from '../../components/requisitions/modalities/FetchModalities'
+import AuthComponent from '../../components/auth/AuthComponent';
 
-const Home = () => {
+const Home = ({ token }) => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -112,6 +113,7 @@ const Home = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            <AuthComponent />
             {/* Passa os dados atualizados para o componente FetchModalities */}
             <FetchModalities modalities={modalities} setModalities={setModalities} />
         </div>

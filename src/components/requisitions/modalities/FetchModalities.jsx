@@ -98,11 +98,11 @@ const FetchModalities = ({ modalities, setModalities }) => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='text-center'>Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div className='text-center'>Error: {error.message}</div>;
     }
 
     return (
@@ -147,13 +147,13 @@ const FetchModalities = ({ modalities, setModalities }) => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="confirmationModalLabel">Confirmação de Exclusão</h5>
-                            <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
+                            <button type="button" className="btn-close" onClick={() => handleCloseModal('confirmationModal')} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             Tem certeza de que deseja excluir este item?
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Cancelar</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => handleCloseModal('confirmationModal')}>Cancelar</button>
                             <button type="button" className="btn btn-danger" onClick={handleDelete}>Excluir</button>
                         </div>
                     </div>
@@ -205,7 +205,7 @@ const FetchModalities = ({ modalities, setModalities }) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={() => handleCloseModal('editModal')}>Cancelar</button>
-                            <button type="button" className="btn btn-danger" onClick={handleEdit}>Salvar</button>
+                            <button type="button" className="btn btn-primary" onClick={handleEdit}>Salvar</button>
                         </div>
                     </div>
                 </div>

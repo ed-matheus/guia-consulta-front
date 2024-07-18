@@ -93,7 +93,7 @@ const Home = ({ token }) => {
 
     return (
         <div className='home'>
-            <h1 className='text-center'>Data from API</h1>
+            <h1 className='text-center'>Cadastro de Máquinas</h1>
             {/* Mensagem de alerta ao tentar enviar os dados com os campos vazios */}
             <div id='alert_container' className='alert alert-danger w-25 m-auto text-center hide'>
                 Por favor, preencha todos os campos.

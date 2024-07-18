@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
-// Styles
-import './FetchModalities.css'
+import './FetchModalities.css';
 
 const FetchModalities = ({ modalities, setModalities }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [modalItemId, setModalItemId] = useState(null);
+    const [editItem, setEditItem] = useState({ name: '', description: '' });
 
     useEffect(() => {
         const getData = async () => {
@@ -27,11 +27,11 @@ const FetchModalities = ({ modalities, setModalities }) => {
         };
 
         getData();
-    }, []);
+    }, [setModalities]);
 
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/v1/machines/modalities/${id}`, {
+            const response = await fetch(`http://127.0.0.1:8000/api/v1/machines/modalities/${modalItemId}`, {
                 method: 'DELETE',
             });
 
@@ -40,11 +40,61 @@ const FetchModalities = ({ modalities, setModalities }) => {
             }
 
             // Atualiza o estado local para remover o item deletado
-            setModalities(modalities.filter(item => item.id !== id));
+            setModalities(modalities.filter(item => item.id !== modalItemId));
+            handleCloseModal('confirmationModal');
         } catch (error) {
             console.error('Error:', error);
             setError(error);
         }
+    };
+
+    const handleEdit = async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/v1/machines/modalities/${modalItemId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editItem),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const updatedItem = await response.json();
+            setModalities((prev) =>
+                prev.map((item) => (item.id === modalItemId ? updatedItem : item))
+            );
+            handleCloseModal('editModal');
+        } catch (error) {
+            console.error('Error:', error);
+            setError(error);
+        }
+    };
+
+    const handleShowModal = (id) => {
+        setModalItemId(id);
+        const modal = new window.bootstrap.Modal(document.getElementById('confirmationModal'));
+        modal.show();
+    };
+
+    const handleShowEditModal = (item) => {
+        setModalItemId(item.id);
+        setEditItem({ name: item.name, description: item.description });
+        const modal = new window.bootstrap.Modal(document.getElementById('editModal'));
+        modal.show();
+    };
+
+    const handleCloseModal = (modalId) => {
+        const modal = window.bootstrap.Modal.getInstance(document.getElementById(modalId));
+        modal.hide();
+        setModalItemId(null);
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditItem((prev) => ({ ...prev, [name]: value }));
     };
 
     if (loading) {
@@ -75,11 +125,14 @@ const FetchModalities = ({ modalities, setModalities }) => {
                             <td>
                                 <button 
                                     className='btn me-2' 
-                                    onClick={() => handleDelete(item.id)}
+                                    onClick={() => handleShowModal(item.id)}
                                 >
                                     <i className="fa-solid fa-trash text-danger"></i>
                                 </button>
-                                <button className='btn'>
+                                <button
+                                    className='btn'
+                                    onClick={() => handleShowEditModal(item)}
+                                >
                                     <i className="fa-solid fa-pencil text-primary"></i>
                                 </button>
                             </td>
@@ -87,6 +140,76 @@ const FetchModalities = ({ modalities, setModalities }) => {
                     ))}
                 </tbody>
             </table>
+
+            {/* Modal de Confirmação de Exclusão */}
+            <div className="modal fade" id="confirmationModal" tabIndex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="confirmationModalLabel">Confirmação de Exclusão</h5>
+                            <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Tem certeza de que deseja excluir este item?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Cancelar</button>
+                            <button type="button" className="btn btn-danger" onClick={handleDelete}>Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal de Edição */}
+            <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="editModalLabel">Alteração de Dados</h5>
+                            <button type="button" className="btn-close" onClick={() => handleCloseModal('editModal')} aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="mb-3">
+                                <label htmlFor="name" className="form-label">Nome</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="name" 
+                                    name="name" 
+                                    value={editItem.name} 
+                                    onChange={handleEditChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="description" className="form-label">Descrição</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="description" 
+                                    name="description" 
+                                    value={editItem.description} 
+                                    onChange={handleEditChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="user_create" className="form-label">User Create</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="user_create" 
+                                    name="user_create" 
+                                    value={editItem.user_create} 
+                                    onChange={handleEditChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={() => handleCloseModal('editModal')}>Cancelar</button>
+                            <button type="button" className="btn btn-danger" onClick={handleEdit}>Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
